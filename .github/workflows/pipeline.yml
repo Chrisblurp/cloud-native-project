@@ -1,4 +1,4 @@
-name: DevOps CI Pipeline
+name: DevOps CI/CD Pipeline
 
 on:
   push:
@@ -33,3 +33,12 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }}
+
+      - name: Set Kubernetes Config
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
+      - name: Deploy to Kubernetes
+        run: | 
+          kubectl set image deployment/cloud-native-app cloud-native-app=${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }}
