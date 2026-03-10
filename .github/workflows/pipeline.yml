@@ -1,4 +1,4 @@
-name: Simple Build and Push
+name: Full CI/CD Pipeline
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: self-hosted  # ← CHANGED FROM ubuntu-latest
 
     steps:
       - name: Checkout Code
@@ -26,3 +26,8 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/cloud-native-app cloud-native-app=${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }}
+          kubectl rollout status deployment/cloud-native-app
