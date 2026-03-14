@@ -1,4 +1,4 @@
-name: Full CI/CD Pipeline
+name: DevOps CI/CD Pipeline
 
 on:
   push:
@@ -6,57 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: self-hosted
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Configure Docker for macOS Runner
-        run: |
-          # Create and use local Docker context
-          docker context create local \
-            --docker "host=unix:///Users/mac/.docker/run/docker.sock" 2>/dev/null || true
-          docker context use local
-          
-          # Set environment variable
-          echo "DOCKER_HOST=unix:///Users/mac/.docker/run/docker.sock" >> $GITHUB_ENV
-          
-          # Verify
-          docker version
-          echo "✅ Docker ready"
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker Login
-        env:
-          DOCKER_HOST: unix:///Users/mac/.docker/run/docker.sock
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    - name: Build Docker Image
+      run: docker build -t khrisblurp/devops-app:latest .
 
-      - name: Build Docker Image
-        env:
-          DOCKER_HOST: unix:///Users/mac/.docker/run/docker.sock
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }} .
-
-      - name: Push Docker Image
-        env:
-          DOCKER_HOST: unix:///Users/mac/.docker/run/docker.sock
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }}
-
-      - name: Check Deployment
-        id: check-deploy
-        run: |
-          if kubectl get deployment cloud-native-app &>/dev/null; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Deploy to Kubernetes
-        if: steps.check-deploy.outputs.exists == 'true'
-        run: |
-          kubectl set image deployment/cloud-native-app \
-            cloud-native-app=${{ secrets.DOCKER_USERNAME }}/cloud-native-image:${{ github.run_number }}
-          kubectl rollout status deployment/cloud-native-app
+    - name: Push Docker Image
+      run: docker push khrisblurp/devops-app:latest
