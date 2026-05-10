@@ -1,204 +1,363 @@
-# DevOps Portfolio Project – Cloud‑Native CI/CD Application
+# Cloud-Native CI/CD DevOps Platform
 
-## Project Overview
+A complete cloud-native DevOps project demonstrating containerization, CI/CD automation, Kubernetes orchestration, Infrastructure as Code, and monitoring in a production-style environment.
 
-This project is designed to help students practice real-world DevOps skills by building and deploying a containerized application using modern DevOps tools and practices.
-
-Students will clone this repository and implement a complete DevOps workflow that includes:
-
-* Containerizing an application
-* Building CI/CD pipelines
-* Deploying to Kubernetes
-* Implementing Infrastructure as Code
-* Adding monitoring and observability
-
-The goal is to simulate a real production DevOps environment.
+This project was built as part of a DevOps engineering bootcamp and simulates a real-world DevOps workflow used in modern cloud environments.
 
 ---
 
-# Learning Objectives
+# Project Highlights
 
-By completing this assignment, students will learn how to:
-
-1. Work with Git and GitHub repositories
-2. Containerize applications using Docker
-3. Build CI/CD pipelines
-4. Deploy applications to Kubernetes
-5. Use Helm for Kubernetes deployments
-6. Provision infrastructure using Terraform
-7. Implement monitoring using Prometheus and Grafana
-
----
-
-# Prerequisites
-
-Students must have the following installed on their machines:
-
-* Git
-* Docker
-* Kubernetes CLI (kubectl)
-* Minikube OR any local Kubernetes cluster
-* Helm
-* Terraform
-* AWS CLI (optional for cloud deployment)
-
-Recommended OS:
-
-* macOS
-* Linux
+- Containerized Python web application using Docker
+- Automated CI/CD pipeline with GitHub Actions
+- Kubernetes deployment and service configuration
+- Helm-based Kubernetes package management
+- Infrastructure provisioning with Terraform
+- Monitoring and observability using Prometheus and Grafana
+- Local Kubernetes development using Minikube
+- Production-style DevOps workflow
 
 ---
 
-# Step 1 – Clone the Repository
+# Architecture Overview
 
-Clone the repository to your local machine.
+## DevOps Workflow
 
-```
- git clone <REPOSITORY_URL>
+```text
+Developer Pushes Code
+        ↓
+GitHub Actions CI/CD Pipeline
+        ↓
+Docker Image Build
+        ↓
+Container Image Scan
+        ↓
+Push Image to DockerHub
+        ↓
+Deploy to Kubernetes Cluster
+        ↓
+Helm Release Management
+        ↓
+Prometheus Monitoring
+        ↓
+Grafana Dashboards
 ```
 
-Navigate into the project directory.
+---
 
+# Tech Stack
+
+## DevOps Tools
+
+- Docker
+- Kubernetes
+- Helm
+- Terraform
+- GitHub Actions
+- Prometheus
+- Grafana
+- Minikube
+
+## Development
+
+- Python
+- Flask
+- YAML
+- Bash
 
 ---
 
-# Step 2 – Understand the Application
+# Project Structure
 
-The application is a simple Python web service.
-
-Students should:
-
-* Review the source code
-* Understand how the application runs
-* Identify required dependencies
-
-Run the application locally:
-
-
----
-
-# Step 3 – Containerize the Application
-
-Create a Docker image for the application.
-
-Tasks:
-
-* Write or review the Dockerfile
-* Build the Docker image
-* Run the container locally
-
-
-Verify the application works in a browser.
+```bash
+.
+├── app/
+├── Dockerfile
+├── kubernetes/
+│   ├── deployment.yaml
+│   └── service.yaml
+├── helm/
+│   └── devops-app-chart/
+├── terraform/
+├── .github/
+│   └── workflows/
+│       └── deploy.yaml
+└── README.md
+```
 
 ---
 
-# Step 4 – Push the Image to a Container Registry
+# Features
 
-Students must push their Docker image to a container registry.
-
-Tasks:
-
-1. Create a DockerHub account
-2. Tag the image
-3. Push the image
-
----
-
-# Step 5 – Create a Kubernetes Deployment
-
-Students will deploy the application into a Kubernetes cluster.
-
-Tasks:
-
-* Create deployment.yaml
-* Create service.yaml
-
-Deploy the application:
-
-Verify deployment:
+- Fully containerized application
+- Automated build and deployment pipeline
+- Kubernetes orchestration
+- Scalable deployment architecture
+- Infrastructure as Code implementation
+- Monitoring and observability integration
+- Helm-based deployment management
 
 ---
 
-# Step 6 – Deploy Using Helm
+# Local Development Setup
 
-Helm will be used to package the Kubernetes deployment.
+## Prerequisites
 
-Tasks:
+Ensure the following tools are installed:
 
-1. Create a Helm chart
-2. Configure values.yaml
-3. Deploy the chart
-
-Commands:
-
----
-
-# Step 7 – Implement CI/CD Pipeline
-
-Students must create a CI/CD pipeline.
-
-Pipeline requirements:
-
-* Trigger on code push
-* Build Docker image
-* Scan the image
-* Push the image to registry
-* Deploy to Kubernetes
-
-CI/CD can be implemented using GitHub Actions.
-
----
-
-# Step 8 – Add Monitoring
-
-Deploy monitoring tools in Kubernetes.
-
-Students must:
-
-* Install Prometheus
-* Install Grafana
-* Connect Prometheus to Grafana
-* Import a Kubernetes dashboard
-
----
-
-# Step 9 – Infrastructure as Code
-
-Students will provision infrastructure using Terraform.
-
-Tasks:
-
-* Create a Terraform configuration
-* Provision a Kubernetes cluster
-* Deploy the application to the cluster
+- Git
+- Docker
+- kubectl
+- Minikube
+- Helm
+- Terraform
 
 Optional:
-
-Deploy the cluster on AWS.
-
----
-
-# Assignment Deliverables
-
-Students must submit:
-
-1. GitHub repository link
-2. Screenshot of running application
-3. Screenshot of Kubernetes pods
-4. Screenshot of CI/CD pipeline
-5. Screenshot of Grafana dashboard
+- AWS CLI
+- Azure CLI
 
 ---
 
+# Clone Repository
 
-# Expected Outcomes
-
-At the end of this project students should be able to:
-
-* Design and deploy a DevOps pipeline
-* Manage containerized workloads
-* Deploy production‑style Kubernetes applications
-* Implement monitoring and observability
+```bash
+git clone https://github.com/Chrisblurp/cloud-native-project.git
+cd cloud-native-project
+```
 
 ---
 
+# Run Application Locally
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the application:
+
+```bash
+initialize python mvenv
+python app.py
+```
+
+Access the application:
+
+```text
+http://localhost:5000
+```
+
+---
+
+# Docker Setup
+
+## Build Docker Image
+
+```bash
+docker build -t your-dockerhub-username/devops-app .
+```
+
+## Run Container
+
+```bash
+docker run -p 5000:5000 your-dockerhub-username/devops-app
+```
+
+---
+
+# Push Image to DockerHub
+
+## Login
+
+```bash
+docker login
+```
+
+## Push Image
+
+```bash
+docker push your-dockerhub-username/devops-app
+```
+
+---
+
+# Kubernetes Deployment
+
+## Start Minikube
+
+```bash
+minikube start
+```
+
+## Apply Kubernetes Manifests
+
+```bash
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+```
+
+## Verify Deployment
+
+```bash
+kubectl get pods
+kubectl get services
+```
+
+---
+
+# Helm Deployment
+
+## Create Helm Release
+
+```bash
+helm install devops-app ./helm/devops-app-chart
+```
+
+## Verify Helm Release
+
+```bash
+helm list
+```
+
+---
+
+# CI/CD Pipeline
+
+The project uses GitHub Actions to automate:
+
+- Docker image builds
+- Image scanning
+- Container registry push
+- Kubernetes deployment
+- Continuous delivery workflow
+
+## Pipeline Trigger
+
+The pipeline automatically runs on:
+
+- Push to main branch
+- Pull requests
+
+---
+
+# Monitoring & Observability
+
+## Monitoring Stack
+
+- Prometheus for metrics collection
+- Grafana for visualization
+- Kubernetes dashboard integration
+
+## Installed Components
+
+```bash
+helm install prometheus prometheus-community/prometheus
+helm install grafana grafana/grafana
+```
+
+# Cloud-Native CI/CD DevOps Platform
+
+The application infrastructure was deployed on Microsoft Azure using Azure Kubernetes Service (AKS).
+
+The project demonstrates a production-style cloud-native deployment workflow using managed Kubernetes infrastructure in Azure.
+
+---
+
+# Cloud Infrastructure
+
+## Azure Services Used
+
+- Azure Kubernetes Service (AKS)
+- Azure Container Registry (optional)
+- Azure CLI
+- Terraform
+- Kubernetes
+- Helm
+
+---
+
+# Infrastructure as Code
+
+Terraform was used to provision and manage Azure cloud infrastructure.
+
+## Terraform Workflow
+
+Initialize Terraform:
+
+```bash
+terraform init
+```
+
+Plan infrastructure:
+
+```bash
+terraform plan
+```
+
+Apply infrastructure:
+
+```bash
+terraform apply
+```
+
+---
+
+# AKS Deployment
+
+## Connect to AKS Cluster
+
+```bash
+az aks get-credentials \
+  --resource-group <RESOURCE_GROUP> \
+  --name <AKS_CLUSTER_NAME>
+```
+
+## Verify Cluster Connection
+
+```bash
+kubectl get nodes
+```
+
+## Deploy Application
+
+```bash
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+```
+
+---
+
+# Cloud-Native Features
+
+- Managed Kubernetes cluster using AKS
+- Infrastructure provisioning with Terraform
+- Scalable container orchestration
+- Automated CI/CD deployment pipeline
+- Monitoring and observability integration
+- Helm-based application management
+
+---
+
+# Monitoring & Observability
+
+Monitoring was implemented inside the AKS cluster using:
+
+- Prometheus
+- Grafana
+- Kubernetes metrics collection
+- Cluster observability dashboards
+
+---
+
+# Skills Demonstrated
+
+- Azure Cloud
+- Azure Kubernetes Service (AKS)
+- Terraform Infrastructure as Code
+- Kubernetes administration
+- CI/CD pipeline automation
+- Docker containerization
+- Helm package management
+- Monitoring and observability
+- Cloud-native application deployment
